@@ -1,4 +1,5 @@
 import { type Page, type Locator, expect } from '@playwright/test';
+import { BasePage } from '../BasePage';
 
 /**
  * Page Object for the Scientific Calculator.
@@ -13,33 +14,17 @@ import { type Page, type Locator, expect } from '@playwright/test';
  * "presses 3" and the test asserts the user-visible outcome. That is how
  * the suite surfaces mislabel bugs instead of hiding them.
  */
-export class CalculatorPage {
-  readonly page: Page;
+export class CalculatorPage extends BasePage {
   readonly display: Locator;
 
   // Visible labels exactly as rendered (note the typographic symbols).
-  static readonly DIVIDE = '\u00F7'; // ÷
-  static readonly MULTIPLY = '\u00D7'; // ×
-  static readonly MINUS = '\u2212'; // −
+  static readonly DIVIDE = '÷';   // ÷
+  static readonly MULTIPLY = '×'; // ×
+  static readonly MINUS = '−';    // −
   static readonly PLUS = '+';
-  static readonly SQRT = '\u221A'; // √
+  static readonly SQRT = '√';     // √
   static readonly EQUALS = '=';
   static readonly CLEAR = 'C';
-
-  constructor(page: Page) {
-    this.page = page;
-    this.display = page.locator('#display');
-  }
-
-  async goto(): Promise<void> {
-    await this.page.goto('/calculator/index.html');
-    await expect(this.display).toBeVisible();
-  }
-
-  /** Click any button by its visible label. */
-  async press(label: string): Promise<void> {
-    await this.page.getByRole('button', { name: label, exact: true }).click();
-  }
 
   // Maps ASCII shorthand to the typographic symbols rendered on the buttons.
   private static readonly ASCII_MAP: Record<string, string> = {
@@ -48,7 +33,22 @@ export class CalculatorPage {
     '-': CalculatorPage.MINUS,
   };
 
-  /** Type a multi-character sequence of labels, e.g. "8/2" or "8\u00F72". */
+  constructor(page: Page) {
+    super(page);
+    this.display = page.locator('#display');
+  }
+
+  async goto(): Promise<void> {
+    await this.navigate('/calculator/index.html');
+    await expect(this.display).toBeVisible();
+  }
+
+  /** Click any button by its visible label. */
+  async press(label: string): Promise<void> {
+    await this.page.getByRole('button', { name: label, exact: true }).click();
+  }
+
+  /** Type a multi-character sequence of labels, e.g. "8/2" or "8÷2". */
   async pressSequence(sequence: string): Promise<void> {
     for (const ch of sequence) {
       await this.press(CalculatorPage.ASCII_MAP[ch] ?? ch);

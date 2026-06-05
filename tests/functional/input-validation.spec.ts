@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { CalculatorPage } from '../../pages/CalculatorPage';
+import { CalculatorPage } from '../../pages/calculator/CalculatorPage';
 
 /**
  * INPUT VALIDATION & EDGE CASES
