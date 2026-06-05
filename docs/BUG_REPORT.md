@@ -1,7 +1,7 @@
 # Bug Report — Scientific Calculator
 
 **Build under test:** https://rbihubcodechallenge.github.io/calculator/index.html
-**Tested by:** QA Lead
+**Tested by:** sudarsh
 **Method:** Black-box exploratory testing + automated Playwright regression suite
 **Release recommendation:** **DO NOT SHIP.** Multiple critical defects make core
 arithmetic and data entry unreliable.
@@ -22,10 +22,13 @@ arithmetic and data entry unreliable.
 | BUG-008 | `=` on empty input displays `undefined` | Low | Validation |
 | BUG-009 | Malformed number `2.3.4` is silently accepted | Low | Validation |
 | BUG-010 | Unbalanced parentheses are silently accepted | Low | Validation |
+| BUG-011 | `log(0)` returns `-Infinity` instead of an error | Low | Validation |
+| BUG-012 | Invalid expressions (leading/consecutive operators) return `NaN` | Low | Validation |
 
-> **Verified-correct (no defect):** operator precedence (`2+3*4 = 14`),
-> parentheses grouping, addition, multiplication, `√` of non-negatives,
-> and `log` (base-10). These are covered by passing regression guards.
+> **Verified-correct (no defect):** operator precedence (`2+4*5 = 22`),
+> parentheses grouping (`2*(4+5) = 18`), addition, multiplication,
+> `√` of non-negatives, and `log` (base-10 for valid inputs).
+> These are covered by passing regression guards.
 
 ---
 
@@ -114,6 +117,19 @@ arithmetic and data entry unreliable.
 ### BUG-010 — Unbalanced parentheses accepted silently
 - `(2+3` then `=` returns `5` with no error. Missing closing parenthesis is
   silently tolerated.
+
+### BUG-011 — `log(0)` returns `-Infinity` instead of `Error`
+- Enter `0`, press **log** → `-Infinity`. `log(0)` is mathematically undefined
+  (approaches negative infinity); the raw JS value leaks to the display.
+- **Expected:** `Error`. **Same class as BUG-004** (undefined operations must
+  not leak internal JS values to users).
+
+### BUG-012 — Invalid expressions return `NaN` instead of `Error`
+- Affects two cases:
+  - Press **+** then **=** with nothing entered → `NaN` (leading operator, no left operand).
+  - Enter `2`, press **+** twice, press **=** → `NaN` (consecutive operators).
+- **Expected:** `Error`. Raw `NaN` leaking to the display is the same class of
+  defect as BUG-008 (`undefined`) and BUG-004 (`Infinity`).
 
 ---
 

@@ -3,7 +3,7 @@
 **Build under test:** https://rbihubcodechallenge.github.io/calculator/index.html  
 **Tested by:** sudarsh  
 **Method:** Black-box exploratory testing + Playwright/TypeScript automated regression suite  
-**Suite:** 48 tests across 3 browsers (144 total) — see [`BUG_REPORT.md`](BUG_REPORT.md) for full defect details
+**Suite:** 50 tests across 3 browsers (150 total) — see [`BUG_REPORT.md`](BUG_REPORT.md) for full defect details
 
 ---
 
@@ -54,7 +54,7 @@ Testing was conducted black-box against the live deployment. The approach:
 | `tan` | tan(0) anchor, tan(45°) unit check | 1 pass, 1 fail (BUG-006) | tan(90) undefined | Same unit-system pattern confirmed |
 | `√` | √9, √(negative) | 1 pass, 1 skip | √0, √(decimal) | Negative blocked by BUG-002; basic case passes |
 | `log` (base 10) | log(100), log(1), log(0) boundary | 2 pass, 1 pending | log(0.5), large values | Core domain covered |
-| Input validation | Empty =, trailing op, double op, leading op, malformed decimal, unbalanced parens | 3 pass, 4 fail (BUG-008–010) | Extremely long input, all function + empty combos | Low risk; basic robustness covered |
+| Input validation | Empty =, trailing op, double op, leading op, malformed decimal, unbalanced parens, log(0) | 3 pass, 6 fail (BUG-008–012) | Extremely long input, all function + empty combos | Low risk; basic robustness covered |
 | Keyboard input | — | Not tested | All | Display is `disabled` by design — keyboard entry not supported |
 | Chained calculations | Result reuse after clear | Pass | Result → next expression (no clear) | Behaviour unspecified; tested the documented path |
 | Memory / exponents / `ln` | — | Not tested | All | Not present in the build |
@@ -87,7 +87,7 @@ The pattern: one folder, one fixture entry, one data file — per feature. No re
 | P0 | BUG-005 — sin hardcoded to 1 | Localised JS fix in sin handler | Re-run `scientific.spec.ts` trig block |
 | P1 | BUG-004 — no divide-by-zero guard | Add guard in evaluator | Re-run division edge cases |
 | P2 | BUG-006 — radians, no unit label | Product decision: add DEG/RAD toggle or label | Update `test.fail()` assertions once unit is defined |
-| P3 | BUG-008/009/010 — validation gaps | Input sanitisation in evaluator | Re-run `input-validation.spec.ts` |
+| P3 | BUG-008/009/010/011/012 — validation gaps | Input sanitisation in evaluator | Re-run `input-validation.spec.ts` |
 
 Once BUG-001 and BUG-002 are fixed, the `test.skip` on BUG-007 (`sqrt(negative)`) becomes automatable — remove the skip and add the assertion.
 
