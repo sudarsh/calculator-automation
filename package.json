@@ -9,13 +9,23 @@
     "test:functional": "playwright test tests/functional",
     "test:headed": "playwright test --headed",
     "report": "playwright show-report",
+    "allure:generate": "allure generate allure-results --clean -o allure-report",
+    "allure:open": "allure open allure-report",
+    "allure:report": "npm run allure:generate && npm run allure:open",
     "ci": "playwright test --reporter=html,github,list"
   },
-  "keywords": ["qa", "playwright", "e2e", "automation"],
+  "keywords": [
+    "qa",
+    "playwright",
+    "e2e",
+    "automation"
+  ],
   "license": "MIT",
   "devDependencies": {
     "@playwright/test": "^1.49.0",
     "@types/node": "^22.10.0",
+    "allure-commandline": "^2.42.0",
+    "allure-playwright": "^3.9.0",
     "typescript": "^5.7.0"
   }
 }

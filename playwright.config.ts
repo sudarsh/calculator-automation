@@ -18,8 +18,17 @@ export default defineConfig({
   fullyParallel: true,
   workers: process.env.CI ? 2 : undefined,
   reporter: process.env.CI
-    ? [['html', { open: 'never' }], ['github'], ['list']]
-    : [['html', { open: 'never' }], ['list']],
+    ? [
+        ['html', { open: 'never' }],
+        ['github'],
+        ['list'],
+        ['allure-playwright', { resultsDir: 'allure-results' }],
+      ]
+    : [
+        ['html', { open: 'never' }],
+        ['list'],
+        ['allure-playwright', { resultsDir: 'allure-results' }],
+      ],
   use: {
     baseURL: BASE_URL,
     trace: 'on-first-retry',

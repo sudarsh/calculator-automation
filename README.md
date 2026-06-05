@@ -20,6 +20,24 @@ npm run test:headed           # watch it drive a real browser
 BASE_URL=http://localhost:8080 npm test   # run against a local copy
 ```
 
+## Reporting
+Two reporters run on every test execution:
+
+**Playwright HTML** (quick local view):
+```bash
+npm run report
+```
+
+**Allure** (rich report with bug tags, feature breakdown, history):
+```bash
+npm run allure:report         # generate + open in one step
+# or separately:
+npm run allure:generate       # generates allure-report/ from allure-results/
+npm run allure:open           # opens the report in a browser
+```
+
+Allure results are uploaded as CI artifacts (`allure-results-<browser>`) on every run.
+
 ## Layout
 ```
 pages/

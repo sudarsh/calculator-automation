@@ -27,7 +27,7 @@ test.describe('Sanity', () => {
     expect(await calc.readDisplay()).toBe('');
   });
 
-  test('all expected control buttons are present', async ({ page }) => {
+  test('all expected control buttons are present', async ({ calc, page }) => {
     for (const label of ['C', '(', ')', '=', 'sin', 'cos', 'tan', '√', 'log']) {
       await expect(
         page.getByRole('button', { name: label, exact: true })
