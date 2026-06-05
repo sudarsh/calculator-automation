@@ -73,3 +73,28 @@ BUG-006 (radians vs degrees) needs a product call before we can write a passing 
 Full reproduction steps: [`BUG_REPORT.md`](BUG_REPORT.md).
 
 All bugs are filed as GitHub Issues with severity labels and priority — [view the tracker](https://github.com/sudarsh/calculator-automation/issues) or the [project board](https://github.com/users/sudarsh/projects/2).
+
+---
+
+## Supplementary: UX Simulation Testing
+
+As additional coverage beyond functional regression, I ran the calculator through **Simulr** — a UX testing tool I've been building as a personal project. Simulr uses AI personas to simulate real user behaviour, navigate the app autonomously, and produce a UX scorecard across four dimensions.
+
+**Persona used:** Confident Explorer — navigates fast, trusts the UI, tries things without reading.
+
+**Overall score: 4/10**
+
+| Dimension | Score | Finding |
+|---|---|---|
+| Task Completion & Flow | 3/10 | Core arithmetic failed entirely — the persona couldn't complete a basic calculation |
+| Visual Clarity | 7/10 | Clean dark theme, good layout — the UI looks professional |
+| Error Handling | 2/10 | Raw `undefined` exposed directly; no guidance on what went wrong or how to recover |
+| Accessibility | 5/10 | No ARIA labels, no visible focus indicators, no keyboard navigation |
+
+**What this surfaced beyond the Playwright suite:**
+- Buttons show no visual state change when pressed — users get no confirmation their input registered
+- No visual differentiation between number buttons, operators, and scientific functions — increases cognitive load
+- The display being a text input field confused the persona into trying to type directly into it
+- Accessibility gaps (ARIA, focus management) are entirely outside what functional automation tests
+
+The full report is in [`docs/simulr-ux-report.pdf`](simulr-ux-report.pdf).

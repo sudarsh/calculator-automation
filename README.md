@@ -91,3 +91,4 @@ When a known bug blocks a test it is marked `test.fail()` with a `BUG-ID`. This 
 | Project board | [Scientific Calculator QA](https://github.com/users/sudarsh/projects/2) |
 | Full bug report | [`docs/BUG_REPORT.md`](docs/BUG_REPORT.md) |
 | QA report | [`docs/QA_REPORT.md`](docs/QA_REPORT.md) |
+| UX simulation report (Simulr) | [`docs/simulr-ux-report.pdf`](docs/simulr-ux-report.pdf) |
