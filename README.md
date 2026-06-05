@@ -28,15 +28,13 @@ Two reporters run on every test execution:
 npm run report
 ```
 
-**Allure** (rich report with bug tags, feature breakdown, history):
+**Monocart** (rich report — no Java required):
 ```bash
-npm run allure:report         # generate + open in one step
-# or separately:
-npm run allure:generate       # generates allure-report/ from allure-results/
-npm run allure:open           # opens the report in a browser
+npm test                      # run tests, generates monocart-report/index.html
+npm run report:monocart       # open the report in a browser
 ```
 
-Allure results are uploaded as CI artifacts (`allure-results-<browser>`) on every run.
+Monocart report is uploaded as a CI artifact (`monocart-report-<browser>`) on every run and can be downloaded directly from the GitHub Actions summary page.
 
 ## Layout
 ```

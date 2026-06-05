@@ -5,6 +5,7 @@ blob-report/
 playwright/.cache/
 allure-results/
 allure-report/
+monocart-report/
 *.log
 .DS_Store
 .env

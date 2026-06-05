@@ -10,11 +10,8 @@ const BASE_URL =
 
 export default defineConfig({
   testDir: './tests',
-  /* Fail the build on CI if test.only is left in the source. */
   forbidOnly: !!process.env.CI,
-  /* Retry once on CI to absorb transient network flake against the live site. */
   retries: process.env.CI ? 1 : 0,
-  /* Opt out of parallelism inside a file; keep files parallel. */
   fullyParallel: true,
   workers: process.env.CI ? 2 : undefined,
   reporter: process.env.CI
@@ -22,12 +19,12 @@ export default defineConfig({
         ['html', { open: 'never' }],
         ['github'],
         ['list'],
-        ['allure-playwright', { resultsDir: 'allure-results' }],
+        ['monocart-reporter', { name: 'Scientific Calculator QA', outputFile: 'monocart-report/index.html' }],
       ]
     : [
         ['html', { open: 'never' }],
         ['list'],
-        ['allure-playwright', { resultsDir: 'allure-results' }],
+        ['monocart-reporter', { name: 'Scientific Calculator QA', outputFile: 'monocart-report/index.html' }],
       ],
   use: {
     baseURL: BASE_URL,

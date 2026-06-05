@@ -39,10 +39,10 @@ jobs:
           path: playwright-report/
           retention-days: 14
 
-      - name: Upload Allure results
+      - name: Upload Monocart report
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4
         with:
-          name: allure-results-${{ matrix.browser }}
-          path: allure-results/
+          name: monocart-report-${{ matrix.browser }}
+          path: monocart-report/
           retention-days: 14
