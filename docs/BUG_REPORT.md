@@ -24,11 +24,12 @@ arithmetic and data entry unreliable.
 | BUG-010 | Unbalanced parentheses are silently accepted | Low | Validation |
 | BUG-011 | `log(0)` returns `-Infinity` instead of an error | Low | Validation |
 | BUG-012 | Invalid expressions (leading/consecutive operators) return `NaN` | Low | Validation |
+| BUG-013 | `(expr)*n` form does not evaluate — `)` finalises the sub-expression early | Medium | Math |
 
 > **Verified-correct (no defect):** operator precedence (`2+4*5 = 22`),
-> parentheses grouping (`2*(4+5) = 18`), addition, multiplication,
-> `√` of non-negatives, and `log` (base-10 for valid inputs).
-> These are covered by passing regression guards.
+> parentheses when the operator precedes the group (`2*(4+5) = 18`),
+> addition, multiplication, `√` of non-negatives, and `log` (base-10
+> for valid inputs). These are covered by passing regression guards.
 
 ---
 
@@ -117,6 +118,21 @@ arithmetic and data entry unreliable.
 ### BUG-010 — Unbalanced parentheses accepted silently
 - `(2+3` then `=` returns `5` with no error. Missing closing parenthesis is
   silently tolerated.
+
+### BUG-013 — `(expr)*n` form does not evaluate correctly
+- **Severity:** Medium
+- **Steps to reproduce:**
+  1. Enter `(2+4)*5` and press `=`.
+- **Expected:** `30`.
+- **Actual:** `6` — the calculator evaluates `(2+4)` immediately when `)` is
+  pressed and discards the subsequent `*5`.
+- **Impact:** Any expression where a parenthesised group is the left operand
+  of a multiplication silently returns the wrong result. The reverse form
+  `n*(expr)` (e.g. `2*(4+5)`) works correctly — the bug is specific to the
+  `)` key finalising evaluation before the outer operator is applied.
+- **Workaround:** Write the multiplier before the parenthesised group.
+
+---
 
 ### BUG-011 — `log(0)` returns `-Infinity` instead of `Error`
 - Enter `0`, press **log** → `-Infinity`. `log(0)` is mathematically undefined

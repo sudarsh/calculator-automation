@@ -8,7 +8,7 @@
 
 ## Bottom line
 
-**Don't ship this.** There are four blockers that make the calculator unreliable for basic use.
+**Don't ship this.** There are four blockers that make the calculator unreliable for basic use, plus nine lower-severity issues found during broader exploration.
 
 The digit `3` key inserts `0` instead (BUG-001) — so any expression with a 3 is silently wrong, no error shown. The minus key inserts division instead of subtraction (BUG-002), making subtraction completely unreachable. Division itself has the operands swapped — `8 ÷ 2` gives `0.25` (BUG-003). And `sin()` is hardcoded to always return `1` regardless of input (BUG-005).
 

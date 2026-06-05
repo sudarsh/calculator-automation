@@ -68,5 +68,5 @@ flags the unexpected pass — so the annotation gets cleaned up automatically.
 
 ## Findings
 
-12 bugs found: 4 Critical, 1 High, 1 Medium, 6 Low. **Do not ship.**  
+13 bugs found: 4 Critical, 1 High, 2 Medium, 6 Low. **Do not ship.**  
 See [`docs/BUG_REPORT.md`](docs/BUG_REPORT.md) for the full breakdown.
