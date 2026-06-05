@@ -4,7 +4,18 @@ End-to-end test automation for the
 [RBIH Scientific Calculator](https://rbihubcodechallenge.github.io/calculator/index.html),
 built with **Playwright + TypeScript**.
 
-## Quick start
+## Stack
+
+| Tool | Purpose |
+|------|---------|
+| [Playwright](https://playwright.dev) | Test framework + browser automation |
+| TypeScript | Type-safe test authoring |
+| Node.js 20 | Runtime |
+| GitHub Actions | CI — 3-browser parallel matrix |
+| Monocart Reporter | Rich HTML test report |
+| GitHub Pages | Live report hosting |
+
+## Quick Start
 ```bash
 npm ci
 npx playwright install        # downloads browser binaries (needs network)
@@ -12,7 +23,7 @@ npm test                      # run the full suite (all browsers)
 npm run report                # open the Playwright HTML report
 ```
 
-Useful variants:
+**Useful variants:**
 ```bash
 npm run test:smoke            # fast sanity checks only
 npm run test:functional       # full functional/regression suite
@@ -22,7 +33,7 @@ BASE_URL=http://localhost:8080 npm test   # run against a local copy
 
 ## Reports
 
-**Live report (latest master run):**  
+**Live report (latest master run):**
 https://sudarsh.github.io/calculator-automation/
 
 **Locally after a test run:**
@@ -31,9 +42,9 @@ npm run report:monocart       # opens monocart-report/index.html
 npm run report                # opens the Playwright HTML report
 ```
 
-The monocart report is also uploaded as a CI artifact on every run.
+> The monocart report is also uploaded as a CI artifact on every run.
 
-## Layout
+## Project Layout
 ```
 pages/
   BasePage.ts                 Abstract base — shared Page ref and navigate()
@@ -53,20 +64,26 @@ tests/
       input-validation.spec.ts
 
 docs/
-  BUG_REPORT.md               All findings with reproduction steps
-  TEST_PLAN.md                Coverage approach and rationale
-  QA_REPORT.md                Summary report with ship recommendation
+  BUG_REPORT.md               All findings with precise reproduction steps
+  TEST_PLAN.md                Coverage approach, rationale, and gap analysis
+  QA_REPORT.md                Summary report and ship recommendation
 .github/workflows/ci.yml      CI: 3-browser matrix + Pages deployment
 ```
 
-## How defects are tracked
+## Test Strategy & Defect Tracking
 
-Tests assert correct behaviour. When a known bug blocks a test it gets
-marked `test.fail()` with a `BUG-ID`. CI stays green, the defect is
-documented as an executable test, and when the fix lands Playwright
-flags the unexpected pass — so the annotation gets cleaned up automatically.
+The suite clearly separates `smoke` (sanity) and `functional` (regression) testing.
+Tests assert **correct** behaviour, including boundary and edge cases.
+
+When a known bug blocks a test it is marked `test.fail()` with a `BUG-ID`. This ensures:
+
+1. **CI reliability** — the pipeline stays green and trustworthy
+2. **Executable documentation** — the defect lives next to its assertion, not in a spreadsheet
+3. **Automated cleanup** — when a fix lands, Playwright flags the unexpected pass, signalling the annotation can be removed
 
 ## Findings
 
-13 bugs found: 4 Critical, 1 High, 2 Medium, 6 Low. **Do not ship.**  
-See [`docs/BUG_REPORT.md`](docs/BUG_REPORT.md) for the full breakdown.
+13 bugs found: 4 Critical, 1 High, 2 Medium, 6 Low. **Do not ship.**
+
+Full reproduction steps, severity judgements, and forward-looking fix recommendations
+are in [`docs/BUG_REPORT.md`](docs/BUG_REPORT.md) and [`docs/QA_REPORT.md`](docs/QA_REPORT.md).
