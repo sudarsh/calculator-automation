@@ -3,8 +3,8 @@ import { CalculatorPage } from '../../pages/CalculatorPage';
 
 /**
  * INPUT VALIDATION & EDGE CASES
- * How the calculator handles malformed, empty and boundary input. These
- * probe robustness rather than happy-path math.
+ * How the calculator handles malformed, empty, boundary, and operator-edge
+ * input. These probe robustness rather than happy-path math.
  */
 test.describe('Input validation & edge cases', () => {
   let calc: CalculatorPage;
@@ -42,6 +42,26 @@ test.describe('Input validation & edge cases', () => {
 
   test('applying a function to empty input shows Error', async () => {
     await calc.applyFunction('log');
+    expect(await calc.readDisplay()).toBe('Error');
+  });
+
+  test('log(0) shows Error — log of zero is undefined', async () => {
+    await calc.enterNumber('0');
+    await calc.applyFunction('log');
+    expect(await calc.readDisplay()).toBe('Error');
+  });
+
+  test('leading operator "+" without a left operand shows Error', async () => {
+    await calc.press(CalculatorPage.PLUS);
+    await calc.equals();
+    expect(await calc.readDisplay()).toBe('Error');
+  });
+
+  test('consecutive operators "2++" show Error', async () => {
+    await calc.press('2');
+    await calc.press(CalculatorPage.PLUS);
+    await calc.press(CalculatorPage.PLUS);
+    await calc.equals();
     expect(await calc.readDisplay()).toBe('Error');
   });
 
