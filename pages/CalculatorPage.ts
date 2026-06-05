@@ -41,10 +41,17 @@ export class CalculatorPage {
     await this.page.getByRole('button', { name: label, exact: true }).click();
   }
 
-  /** Type a multi-character sequence of labels, e.g. "8\u00F76". */
+  // Maps ASCII shorthand to the typographic symbols rendered on the buttons.
+  private static readonly ASCII_MAP: Record<string, string> = {
+    '*': CalculatorPage.MULTIPLY,
+    '/': CalculatorPage.DIVIDE,
+    '-': CalculatorPage.MINUS,
+  };
+
+  /** Type a multi-character sequence of labels, e.g. "8/2" or "8\u00F72". */
   async pressSequence(sequence: string): Promise<void> {
     for (const ch of sequence) {
-      await this.press(ch);
+      await this.press(CalculatorPage.ASCII_MAP[ch] ?? ch);
     }
   }
 
