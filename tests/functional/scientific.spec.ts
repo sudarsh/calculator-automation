@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures';
 import { CalculatorPage } from '../../pages/calculator/CalculatorPage';
 
 /**
@@ -7,14 +7,8 @@ import { CalculatorPage } from '../../pages/calculator/CalculatorPage';
  * unspecified and currently radians. These are documented per finding.
  */
 test.describe('Scientific functions', () => {
-  let calc: CalculatorPage;
-  test.beforeEach(async ({ page }) => {
-    calc = new CalculatorPage(page);
-    await calc.goto();
-  });
-
   test.describe('Square root (correct)', () => {
-    test('sqrt(9) = 3', async () => {
+    test('sqrt(9) = 3', async ({ calc }) => {
       await calc.enterNumber('9');
       await calc.applyFunction(CalculatorPage.SQRT);
       expect(await calc.readDisplay()).toBe('3');
@@ -29,12 +23,12 @@ test.describe('Scientific functions', () => {
   });
 
   test.describe('Logarithm (correct - base 10)', () => {
-    test('log(100) = 2', async () => {
+    test('log(100) = 2', async ({ calc }) => {
       await calc.enterNumber('100');
       await calc.applyFunction('log');
       expect(await calc.readDisplay()).toBe('2');
     });
-    test('log(1) = 0', async () => {
+    test('log(1) = 0', async ({ calc }) => {
       await calc.enterNumber('1');
       await calc.applyFunction('log');
       expect(await calc.readDisplay()).toBe('0');
@@ -43,7 +37,7 @@ test.describe('Scientific functions', () => {
 
   test.describe('Trigonometry', () => {
     // BUG-005: sin() is hardcoded to 1 for every input.
-    test.fail('sin(0) = 0 [BUG-005]', async () => {
+    test.fail('sin(0) = 0 [BUG-005]', async ({ calc }) => {
       await calc.enterNumber('0');
       await calc.applyFunction('sin');
       expect(await calc.readDisplay()).toBe('0');
@@ -52,21 +46,22 @@ test.describe('Scientific functions', () => {
     // BUG-006: trig operates in radians with no unit indication. Most users
     // of a "scientific calculator" expect degrees, or at least a stated unit.
     // cos(90) in degrees = 0; here cos(90 rad) ~= -0.448.
-    test.fail('cos(90 degrees) = 0 [BUG-006]', async () => {
+    test.fail('cos(90 degrees) = 0 [BUG-006]', async ({ calc }) => {
       await calc.enterNumber('90');
       await calc.applyFunction('cos');
+      // 5 decimal places of precision to avoid floating-point noise
       expect(Number(await calc.readDisplay())).toBeCloseTo(0, 5);
     });
 
     // cos(0) = 1 holds in both unit systems - a useful positive anchor.
-    test('cos(0) = 1', async () => {
+    test('cos(0) = 1', async ({ calc }) => {
       await calc.enterNumber('0');
       await calc.applyFunction('cos');
       expect(await calc.readDisplay()).toBe('1');
     });
 
     // tan(0) = 0 holds in both unit systems - baseline correctness check.
-    test('tan(0) = 0', async () => {
+    test('tan(0) = 0', async ({ calc }) => {
       await calc.enterNumber('0');
       await calc.applyFunction('tan');
       expect(await calc.readDisplay()).toBe('0');
@@ -74,7 +69,7 @@ test.describe('Scientific functions', () => {
 
     // BUG-006: tan(45) should be 1 in degrees. In radians tan(45) ≈ 1.619.
     // Confirms the radians-without-unit-label issue applies to tan as well.
-    test.fail('tan(45 degrees) = 1 [BUG-006]', async () => {
+    test.fail('tan(45 degrees) = 1 [BUG-006]', async ({ calc }) => {
       await calc.enterNumber('45');
       await calc.applyFunction('tan');
       expect(Number(await calc.readDisplay())).toBeCloseTo(1, 5);

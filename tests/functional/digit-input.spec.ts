@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../fixtures';
 import { CalculatorPage } from '../../pages/calculator/CalculatorPage';
 
 /**
@@ -9,46 +9,40 @@ import { CalculatorPage } from '../../pages/calculator/CalculatorPage';
  * fix lands (Playwright reports an unexpected pass).
  */
 test.describe('Digit & operator button mapping', () => {
-  let calc: CalculatorPage;
-  test.beforeEach(async ({ page }) => {
-    calc = new CalculatorPage(page);
-    await calc.goto();
-  });
-
   // Digits 0,1,2,4,5,6,7,8,9 map correctly.
   for (const d of ['0', '1', '2', '4', '5', '6', '7', '8', '9']) {
-    test(`digit ${d} inserts ${d}`, async () => {
+    test(`digit ${d} inserts ${d}`, async ({ calc }) => {
       await calc.press(d);
       expect(await calc.readDisplay()).toBe(d);
     });
   }
 
   // BUG-001: the "3" key inserts "0".
-  test.fail('digit 3 inserts 3 [BUG-001]', async () => {
+  test.fail('digit 3 inserts 3 [BUG-001]', async ({ calc }) => {
     await calc.press('3');
     expect(await calc.readDisplay()).toBe('3');
   });
 
   // BUG-002: the "−" key inserts "/" (division) instead of a minus.
-  test.fail('minus key inserts a minus operator [BUG-002]', async () => {
+  test.fail('minus key inserts a minus operator [BUG-002]', async ({ calc }) => {
     await calc.press('1');
     await calc.press(CalculatorPage.MINUS);
     expect(await calc.readDisplay()).not.toContain('/');
   });
 
-  test('plus key inserts + operator', async () => {
+  test('plus key inserts + operator', async ({ calc }) => {
     await calc.press('1');
     await calc.press(CalculatorPage.PLUS);
     expect(await calc.readDisplay()).toBe('1+');
   });
 
-  test('multiply key inserts * operator', async () => {
+  test('multiply key inserts * operator', async ({ calc }) => {
     await calc.press('1');
     await calc.press(CalculatorPage.MULTIPLY);
     expect(await calc.readDisplay()).toBe('1*');
   });
 
-  test('divide key inserts / operator', async () => {
+  test('divide key inserts / operator', async ({ calc }) => {
     await calc.press('1');
     await calc.press(CalculatorPage.DIVIDE);
     expect(await calc.readDisplay()).toBe('1/');
