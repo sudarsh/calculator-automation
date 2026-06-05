@@ -1,0 +1,21 @@
+{
+  "name": "scientific-calculator-qa",
+  "version": "1.0.0",
+  "description": "End-to-end QA automation suite for the RBIH Scientific Calculator",
+  "private": true,
+  "scripts": {
+    "test": "playwright test",
+    "test:smoke": "playwright test tests/smoke",
+    "test:functional": "playwright test tests/functional",
+    "test:headed": "playwright test --headed",
+    "report": "playwright show-report",
+    "ci": "playwright test --reporter=html,github,list"
+  },
+  "keywords": ["qa", "playwright", "e2e", "automation"],
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.0"
+  }
+}
