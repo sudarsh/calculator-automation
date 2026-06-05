@@ -20,12 +20,11 @@ test.describe('Scientific functions', () => {
       expect(await calc.readDisplay()).toBe('3');
     });
     // BUG-007 (low): sqrt of a negative yields NaN rather than an error.
-    test.fail('sqrt(-4) reports an error, not NaN [BUG-007]', async () => {
-      // Negative entry is itself unsupported; using a workaround value.
-      await calc.enterNumber('4');
-      await calc.applyFunction(CalculatorPage.SQRT);
-      const v = await calc.readDisplay();
-      expect(v).not.toBe('NaN');
+    // Automation is blocked: entering a negative requires the − key, which is
+    // broken (BUG-002). Confirmed manually — enter any negative result and
+    // press √ to reproduce. Remove this skip once BUG-002 is resolved.
+    test.skip('sqrt(negative) reports an error, not NaN [BUG-007]', async () => {
+      // Requires a working minus key (BUG-002) to enter a negative operand.
     });
   });
 

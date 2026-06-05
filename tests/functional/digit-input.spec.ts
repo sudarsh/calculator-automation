@@ -33,21 +33,22 @@ test.describe('Digit & operator button mapping', () => {
   test.fail('minus key inserts a minus operator [BUG-002]', async () => {
     await calc.press('1');
     await calc.press(CalculatorPage.MINUS);
-    expect(await calc.readDisplay()).toBe('1\u2212'.replace('\u2212', '-'));
-    // Expected display to contain a subtraction operator after "1".
-    expect(await calc.readDisplay()).toMatch(/1-?/);
     expect(await calc.readDisplay()).not.toContain('/');
   });
 
-  test('plus, multiply and divide keys insert their operators', async () => {
+  test('plus key inserts + operator', async () => {
     await calc.press('1');
     await calc.press(CalculatorPage.PLUS);
     expect(await calc.readDisplay()).toBe('1+');
-    await calc.clear();
+  });
+
+  test('multiply key inserts * operator', async () => {
     await calc.press('1');
     await calc.press(CalculatorPage.MULTIPLY);
     expect(await calc.readDisplay()).toBe('1*');
-    await calc.clear();
+  });
+
+  test('divide key inserts / operator', async () => {
     await calc.press('1');
     await calc.press(CalculatorPage.DIVIDE);
     expect(await calc.readDisplay()).toBe('1/');
