@@ -10,21 +10,21 @@ arithmetic and data entry unreliable.
 
 ## Severity summary
 
-| ID | Title | Severity | Area |
-|----|-------|----------|------|
-| BUG-001 | "3" key inputs the digit "0" | Critical | Input |
-| BUG-002 | "−" (minus) key inputs "÷" (division) | Critical | Input |
-| BUG-003 | Division operands are swapped (`a ÷ b` computes `b ÷ a`) | Critical | Math |
-| BUG-004 | No divide-by-zero handling (returns `Infinity`) | High | Math |
-| BUG-005 | `sin(x)` always returns `1` for any input | Critical | Scientific |
-| BUG-006 | Trig functions use radians with no unit indication | Medium | Scientific |
-| BUG-007 | `√` of a negative returns `NaN` instead of an error | Low | Scientific |
-| BUG-008 | `=` on empty input displays `undefined` | Low | Validation |
-| BUG-009 | Malformed number `2.3.4` is silently accepted | Low | Validation |
-| BUG-010 | Unbalanced parentheses are silently accepted | Low | Validation |
-| BUG-011 | `log(0)` returns `-Infinity` instead of an error | Low | Validation |
-| BUG-012 | Invalid expressions (leading/consecutive operators) return `NaN` | Low | Validation |
-| BUG-013 | `(expr)*n` form does not evaluate — `)` finalises the sub-expression early | Medium | Math |
+| ID | Title | Severity | Area | Issue |
+|----|-------|----------|------|-------|
+| BUG-001 | "3" key inputs the digit "0" | Critical | Input | [#1](https://github.com/sudarsh/calculator-automation/issues/1) |
+| BUG-002 | "−" (minus) key inputs "÷" (division) | Critical | Input | [#2](https://github.com/sudarsh/calculator-automation/issues/2) |
+| BUG-003 | Division operands are swapped (`a ÷ b` computes `b ÷ a`) | Critical | Math | [#3](https://github.com/sudarsh/calculator-automation/issues/3) |
+| BUG-004 | No divide-by-zero handling (returns `Infinity`) | High | Math | [#4](https://github.com/sudarsh/calculator-automation/issues/4) |
+| BUG-005 | `sin(x)` always returns `1` for any input | Critical | Scientific | [#5](https://github.com/sudarsh/calculator-automation/issues/5) |
+| BUG-006 | Trig functions use radians with no unit indication | Medium | Scientific | [#6](https://github.com/sudarsh/calculator-automation/issues/6) |
+| BUG-007 | `√` of a negative returns `NaN` instead of an error | Low | Scientific | [#7](https://github.com/sudarsh/calculator-automation/issues/7) |
+| BUG-008 | `=` on empty input displays `undefined` | Low | Validation | [#8](https://github.com/sudarsh/calculator-automation/issues/8) |
+| BUG-009 | Malformed number `2.3.4` is silently accepted | Low | Validation | [#9](https://github.com/sudarsh/calculator-automation/issues/9) |
+| BUG-010 | Unbalanced parentheses are silently accepted | Low | Validation | [#10](https://github.com/sudarsh/calculator-automation/issues/10) |
+| BUG-011 | `log(0)` returns `-Infinity` instead of an error | Low | Validation | [#11](https://github.com/sudarsh/calculator-automation/issues/11) |
+| BUG-012 | Invalid expressions (leading/consecutive operators) return `NaN` | Low | Validation | [#12](https://github.com/sudarsh/calculator-automation/issues/12) |
+| BUG-013 | `(expr)*n` form does not evaluate — `)` finalises the sub-expression early | Medium | Math | [#13](https://github.com/sudarsh/calculator-automation/issues/13) |
 
 > **Verified-correct (no defect):** operator precedence (`2+4*5 = 22`),
 > parentheses when the operator precedes the group (`2*(4+5) = 18`),
