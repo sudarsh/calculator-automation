@@ -4,8 +4,8 @@ import { CalculatorPage } from '../../pages/CalculatorPage';
 /**
  * CORE ARITHMETIC & OPERATOR PRECEDENCE
  * Addition, multiplication, precedence and grouping are CORRECT and are
- * locked down as regression guards. Division is defective (operands
- * swapped) and is documented with failing-as-expected tests.
+ * locked down as regression guards. Subtraction is unreachable (BUG-002)
+ * and division is defective (BUG-003). Both are documented as test.fail().
  */
 test.describe('Arithmetic', () => {
   let calc: CalculatorPage;
@@ -20,6 +20,17 @@ test.describe('Arithmetic', () => {
     });
     test('decimals: 1.5 + 2.5 = 4', async () => {
       expect(await calc.evaluate('1.5+2.5')).toBe('4');
+    });
+  });
+
+  test.describe('Subtraction', () => {
+    // BUG-002: the − key inserts ÷, so "5-3" is evaluated as "5÷3 ≈ 1.667".
+    // Subtraction is entirely unreachable through the UI until BUG-002 is fixed.
+    test.fail('5 - 3 = 2 [BUG-002]', async () => {
+      expect(await calc.evaluate('5-3')).toBe('2');
+    });
+    test.fail('10 - 4 = 6 [BUG-002]', async () => {
+      expect(await calc.evaluate('10-4')).toBe('6');
     });
   });
 

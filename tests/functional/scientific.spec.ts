@@ -64,5 +64,20 @@ test.describe('Scientific functions', () => {
       await calc.applyFunction('cos');
       expect(await calc.readDisplay()).toBe('1');
     });
+
+    // tan(0) = 0 holds in both unit systems - baseline correctness check.
+    test('tan(0) = 0', async () => {
+      await calc.enterNumber('0');
+      await calc.applyFunction('tan');
+      expect(await calc.readDisplay()).toBe('0');
+    });
+
+    // BUG-006: tan(45) should be 1 in degrees. In radians tan(45) ≈ 1.619.
+    // Confirms the radians-without-unit-label issue applies to tan as well.
+    test.fail('tan(45 degrees) = 1 [BUG-006]', async () => {
+      await calc.enterNumber('45');
+      await calc.applyFunction('tan');
+      expect(Number(await calc.readDisplay())).toBeCloseTo(1, 5);
+    });
   });
 });
