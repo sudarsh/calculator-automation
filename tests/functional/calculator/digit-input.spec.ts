@@ -1,15 +1,13 @@
-import { test, expect } from '../fixtures';
-import { CalculatorPage } from '../../pages/calculator/CalculatorPage';
+import { test, expect } from '../../fixtures';
+import { CalculatorPage } from '../../../pages/calculator/CalculatorPage';
 
 /**
  * BUTTON / INPUT MAPPING
- * Verifies that each key inserts what its label promises. These tests
- * assert CORRECT behaviour; ones blocked by a known defect are annotated
- * test.fail() with a BUG-ID so CI stays green AND auto-alerts the day the
- * fix lands (Playwright reports an unexpected pass).
+ * Verifies that each key inserts what its label promises. Tests assert
+ * CORRECT behaviour; defect-blocked tests are annotated test.fail() with
+ * a BUG-ID so CI stays green and auto-alerts when a fix lands.
  */
 test.describe('Digit & operator button mapping', () => {
-  // Digits 0,1,2,4,5,6,7,8,9 map correctly.
   for (const d of ['0', '1', '2', '4', '5', '6', '7', '8', '9']) {
     test(`digit ${d} inserts ${d}`, async ({ calc }) => {
       await calc.press(d);

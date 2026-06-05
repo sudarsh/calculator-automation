@@ -1,5 +1,5 @@
-import { test, expect } from '../fixtures';
-import { CalculatorPage } from '../../pages/calculator/CalculatorPage';
+import { test, expect } from '../../fixtures';
+import { CalculatorPage } from '../../../pages/calculator/CalculatorPage';
 
 /**
  * INPUT VALIDATION & EDGE CASES
@@ -13,21 +13,20 @@ test.describe('Input validation & edge cases', () => {
     expect(await calc.readDisplay()).toBe('Error');
   });
 
-  // BUG-008 (low): pressing "=" on an empty display shows "undefined".
+  // BUG-008: pressing "=" on an empty display shows "undefined".
   test.fail('equals on empty display does not show "undefined" [BUG-008]', async ({ calc }) => {
     await calc.equals();
-    const v = await calc.readDisplay();
-    expect(v).not.toBe('undefined');
+    expect(await calc.readDisplay()).not.toBe('undefined');
   });
 
-  // BUG-009 (low): malformed number "2.3.4" is silently accepted (parses 2.3).
+  // BUG-009: malformed number "2.3.4" is silently accepted (parses 2.3).
   test.fail('malformed number "2.3.4" is rejected [BUG-009]', async ({ calc }) => {
     await calc.pressSequence('2.3.4');
     await calc.equals();
     expect(await calc.readDisplay()).toBe('Error');
   });
 
-  // BUG-010 (low): unbalanced parentheses "(2+3" evaluate silently to 5.
+  // BUG-010: unbalanced parentheses "(2+3" evaluate silently to 5.
   test.fail('unbalanced parentheses "(2+3" is rejected [BUG-010]', async ({ calc }) => {
     await calc.pressSequence('(2+3');
     await calc.equals();
@@ -59,7 +58,7 @@ test.describe('Input validation & edge cases', () => {
     expect(await calc.readDisplay()).toBe('Error');
   });
 
-  test('result can be reused: clearing after a result resets state', async ({ calc }) => {
+  test('clearing after a result resets state', async ({ calc }) => {
     await calc.evaluate('2+2');
     await calc.clear();
     expect(await calc.readDisplay()).toBe('');

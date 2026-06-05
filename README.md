@@ -22,12 +22,30 @@ BASE_URL=http://localhost:8080 npm test   # run against a local copy
 
 ## Layout
 ```
-pages/CalculatorPage.ts   Page Object Model — all DOM coupling lives here
-tests/smoke/              Sanity / smoke checks (must always pass)
-tests/functional/         Functional + regression suites, grouped by capability
-docs/BUG_REPORT.md        Findings, severities, reproduction steps
-docs/TEST_PLAN.md         Coverage strategy and rationale
-.github/workflows/ci.yml  CI: 3-browser matrix, HTML report artifact
+pages/
+  BasePage.ts                        Abstract base — shared Page ref + navigate()
+  calculator/
+    CalculatorPage.ts                Page Object for the calculator (feature 1)
+  <feature2>/                        ← new feature page object slots here
+
+tests/
+  fixtures.ts                        Playwright fixtures — ready-navigated page objects
+  smoke/
+    sanity.spec.ts                   App-level "is it alive" checks
+  functional/
+    calculator/                      Specs for feature 1
+      data.ts                        Parameterised test inputs (add a case = one line)
+      arithmetic.spec.ts
+      digit-input.spec.ts
+      scientific.spec.ts
+      input-validation.spec.ts
+    <feature2>/                      ← new feature spec folder slots here
+
+docs/
+  BUG_REPORT.md                      Findings, severities, reproduction steps
+  TEST_PLAN.md                       Coverage strategy and rationale
+  QA_REPORT.md                       Narrative front door — exec summary, matrix, ship rec
+.github/workflows/ci.yml             CI: 3-browser matrix, HTML report artifact
 ```
 
 ## How defects are represented
