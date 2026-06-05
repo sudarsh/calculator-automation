@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   e2e:
     name: Playwright (${{ matrix.browser }})
@@ -46,3 +49,11 @@ jobs:
           name: monocart-report-${{ matrix.browser }}
           path: monocart-report/
           retention-days: 14
+
+      - name: Deploy report to GitHub Pages
+        if: matrix.browser == 'chromium' && github.ref == 'refs/heads/master' && !cancelled()
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: monocart-report
+          publish_branch: gh-pages
