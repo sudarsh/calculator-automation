@@ -38,19 +38,23 @@ test.describe('Input validation & edge cases', () => {
     expect(await calc.readDisplay()).toBe('Error');
   });
 
-  test('log(0) shows Error — log of zero is undefined', async ({ calc }) => {
+  // BUG-011: log(0) leaks -Infinity instead of showing Error.
+  // log(0) is mathematically undefined; raw JS values must not reach the UI.
+  test.fail('log(0) shows Error — log of zero is undefined [BUG-011]', async ({ calc }) => {
     await calc.enterNumber('0');
     await calc.applyFunction('log');
     expect(await calc.readDisplay()).toBe('Error');
   });
 
-  test('leading operator "+" without a left operand shows Error', async ({ calc }) => {
+  // BUG-012: invalid expressions leak NaN instead of showing Error.
+  // Affects leading operator and consecutive operators — same evaluator gap.
+  test.fail('leading operator "+" without a left operand shows Error [BUG-012]', async ({ calc }) => {
     await calc.press(CalculatorPage.PLUS);
     await calc.equals();
     expect(await calc.readDisplay()).toBe('Error');
   });
 
-  test('consecutive operators "2++" show Error', async ({ calc }) => {
+  test.fail('consecutive operators "2++" show Error [BUG-012]', async ({ calc }) => {
     await calc.press('2');
     await calc.press(CalculatorPage.PLUS);
     await calc.press(CalculatorPage.PLUS);

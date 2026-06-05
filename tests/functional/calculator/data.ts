@@ -12,9 +12,13 @@ export const MULTIPLICATION_CASES = [
   { expr: '6*7', expected: '42', label: '6 * 7 = 42' },
 ];
 
+// Deliberately avoid digit 3 (BUG-001: inserts 0) so precedence guards
+// are not silently invalidated by an unrelated input-mapping bug.
+// Parentheses case uses n*(expr) form — (expr)*n causes the calculator
+// to finalize the inner expression at ) before applying the outer *.
 export const PRECEDENCE_CASES = [
-  { expr: '2+3*4',   expected: '14', label: '2 + 3 * 4 = 14 (multiplication first)' },
-  { expr: '(2+3)*4', expected: '20', label: '(2 + 3) * 4 = 20 (parentheses first)' },
+  { expr: '2+4*5',   expected: '22', label: '2 + 4 * 5 = 22 (multiplication first)' },
+  { expr: '2*(4+5)', expected: '18', label: '2 * (4 + 5) = 18 (parentheses first)' },
 ];
 
 // BUG-002: subtraction unreachable — minus key inserts division.
