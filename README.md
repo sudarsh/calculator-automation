@@ -85,5 +85,9 @@ When a known bug blocks a test it is marked `test.fail()` with a `BUG-ID`. This 
 
 13 bugs found: 4 Critical, 1 High, 2 Medium, 6 Low. **Do not ship.**
 
-Full reproduction steps, severity judgements, and forward-looking fix recommendations
-are in [`docs/BUG_REPORT.md`](docs/BUG_REPORT.md) and [`docs/QA_REPORT.md`](docs/QA_REPORT.md).
+| Resource | Link |
+|----------|------|
+| Bug tracker (GitHub Issues) | [Issues #1–#13](https://github.com/sudarsh/calculator-automation/issues) |
+| Project board | [Scientific Calculator QA](https://github.com/users/sudarsh/projects/2) |
+| Full bug report | [`docs/BUG_REPORT.md`](docs/BUG_REPORT.md) |
+| QA report | [`docs/QA_REPORT.md`](docs/QA_REPORT.md) |

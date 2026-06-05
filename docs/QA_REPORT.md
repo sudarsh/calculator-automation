@@ -71,3 +71,5 @@ BUG-003 (division swap) and BUG-005 (sin hardcoded) need logic changes but are i
 BUG-006 (radians vs degrees) needs a product call before we can write a passing test — either add a DEG/RAD toggle or document that radians is intentional.
 
 Full reproduction steps: [`BUG_REPORT.md`](BUG_REPORT.md).
+
+All bugs are filed as GitHub Issues with severity labels and priority — [view the tracker](https://github.com/sudarsh/calculator-automation/issues) or the [project board](https://github.com/users/sudarsh/projects/2).
